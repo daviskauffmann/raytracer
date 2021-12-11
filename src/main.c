@@ -281,11 +281,9 @@ struct vec3 cast_ray(struct vec3 origin, struct vec3 direction, struct sphere **
 
 int main(int argc, char *argv[])
 {
-    // init SDL
     SDL_Init(SDL_INIT_VIDEO);
     IMG_Init(IMG_INIT_PNG);
 
-    // create window
     SDL_Window *window = SDL_CreateWindow(
         WINDOW_TITLE,
         SDL_WINDOWPOS_UNDEFINED,
@@ -294,13 +292,11 @@ int main(int argc, char *argv[])
         WINDOW_HEIGHT,
         0);
 
-    // create renderer
     SDL_Renderer *renderer = SDL_CreateRenderer(
         window,
         -1,
         SDL_RENDERER_SOFTWARE);
 
-    // create screen texture
     SDL_Texture *screen = SDL_CreateTexture(
         renderer,
         SDL_PIXELFORMAT_ABGR8888,
@@ -308,7 +304,6 @@ int main(int argc, char *argv[])
         WINDOW_WIDTH,
         WINDOW_HEIGHT);
 
-    // render buffers
     union pixel *pixel_buffer = malloc(WINDOW_WIDTH * WINDOW_HEIGHT * sizeof(union pixel));
 
     const float pi = 3.14159f;
@@ -446,11 +441,9 @@ int main(int argc, char *argv[])
         }
     }
 
-    // main loop
     bool quit = false;
     while (!quit)
     {
-        // handle events
         SDL_Event event;
         while (SDL_PollEvent(&event))
         {
@@ -464,20 +457,13 @@ int main(int argc, char *argv[])
             }
         }
 
-        sphere1.center.y = sinf(SDL_GetTicks() / 1000.0f);
-
-        // clear the renderer
         SDL_RenderClear(renderer);
-
-        // display pixel buffer
         SDL_UpdateTexture(
             screen,
             NULL,
             pixel_buffer,
             WINDOW_WIDTH * sizeof(unsigned int));
         SDL_RenderCopy(renderer, screen, NULL, NULL);
-
-        // display the renderer
         SDL_RenderPresent(renderer);
     }
 
